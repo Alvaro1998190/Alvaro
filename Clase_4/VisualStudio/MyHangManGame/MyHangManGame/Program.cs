@@ -9,13 +9,13 @@ namespace MyHangManGame
     class Program
     {
         static void Main(string[] args) {
-
+            /*
             string secretWord = "zapatos";
             string publicWord = "";
             string tempWord = "";
             string letter = "";
             int hp = 3;
-            
+
 
             for (int i = 0; i < secretWord.Length; i++) {
                 tempWord += "*";
@@ -44,7 +44,7 @@ namespace MyHangManGame
                     hp--;
                 }
 
-                if(secretWord == tempWord) {
+                if (secretWord == tempWord) {
                     Console.WriteLine("YOU WIN!!");
                     break;
                 }
@@ -56,8 +56,77 @@ namespace MyHangManGame
             if (hp <= 0) {
                 Console.WriteLine("GAME OVER");
             }
-            
+
             Console.ReadLine();
+            */
+
+            GameManager gamemanager = new GameManager();
+            Board board = new Board();
+            Player player = new Player();
+
+            gamemanager.SetSecretWord("LapTop");
+
+            while (gamemanager.isPlaying)
+            {
+                board.Clear();
+                board.Draw(player.Life());
+                board.Draw(gamemanager.publicWord);
+
+
+                string letter = player.EnterWord();
+
+
+                if (gamemanager.CheckLetter(letter))
+                    gamemanager.UpdatePublicWord(letter);
+
+                else
+                    player.Damage();
+
+
+                if (player.isDead())
+                    gamemanager.isPlaying = false;
+
+            }
+
+
+            //opcion 1
+
+            board.Clear();
+            board.Draw(player.Life());
+
+                board.Draw("GAME OVER");
+
+
+
+            /*
+            //opcion 2
+            if (player.isDead())
+            {
+                board.Draw("GAME OVER");
+                break;
+            }
+            */
+            if (gamemanager.isWin())
+                board.Draw("YOU WIN!!");
+
+
+
+            board.Close();
         }
+
+
+
+
+
+        
+        
+
+
+
+            
+
+
+
+
     }
 }
